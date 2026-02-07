@@ -46,6 +46,9 @@ public-lab/
 │   ├── frontend-developer.md
 │   ├── qa-tester.md
 │   └── product-manager.md
+├── docs/              # 기획서 및 문서
+│   ├── README.md
+│   └── 운세-서비스-기획서.md
 └── README.md          # 이 파일
 ```
 
