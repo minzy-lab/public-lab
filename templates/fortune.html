@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>오늘의 운세 - 난그미즘</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fortune.css') }}">
+</head>
+<body>
+    <!-- 입력 화면 -->
+    <div id="input-screen" class="screen active">
+        <div class="container">
+            <div class="header">
+                <h1 class="title">🔮 오늘의 운세</h1>
+                <p class="subtitle">당신만의 특별한 하루를 확인해보세요</p>
+            </div>
+
+            <form id="fortune-form" class="fortune-form">
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="이름을 입력하세요"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_date">생년월일</label>
+                    <input
+                        type="date"
+                        id="birth_date"
+                        name="birth_date"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="mbti">MBTI (선택)</label>
+                    <select id="mbti" name="mbti">
+                        <option value="">선택 안 함</option>
+                        <option value="INTJ">INTJ - 전략가</option>
+                        <option value="INTP">INTP - 논리학자</option>
+                        <option value="ENTJ">ENTJ - 통솔자</option>
+                        <option value="ENTP">ENTP - 변론가</option>
+                        <option value="INFJ">INFJ - 옹호자</option>
+                        <option value="INFP">INFP - 중재자</option>
+                        <option value="ENFJ">ENFJ - 선도자</option>
+                        <option value="ENFP">ENFP - 활동가</option>
+                        <option value="ISTJ">ISTJ - 현실주의자</option>
+                        <option value="ISFJ">ISFJ - 수호자</option>
+                        <option value="ESTJ">ESTJ - 경영자</option>
+                        <option value="ESFJ">ESFJ - 집정관</option>
+                        <option value="ISTP">ISTP - 장인</option>
+                        <option value="ISFP">ISFP - 모험가</option>
+                        <option value="ESTP">ESTP - 사업가</option>
+                        <option value="ESFP">ESFP - 연예인</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span class="btn-text">운세 보기</span>
+                    <span class="btn-icon">✨</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 로딩 화면 -->
+    <div id="loading-screen" class="screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">당신의 운세를 확인하는 중...</p>
+        </div>
+    </div>
+
+    <!-- 운세 결과 화면 -->
+    <div id="result-screen" class="screen">
+        <div class="container">
+            <!-- 헤더 -->
+            <div class="result-header">
+                <button class="btn-back" onclick="location.reload()">← 다시하기</button>
+                <div class="result-date" id="result-date"></div>
+            </div>
+
+            <!-- 사용자 정보 -->
+            <div class="user-info">
+                <h2 class="user-greeting" id="user-greeting"></h2>
+                <div class="user-details">
+                    <span class="zodiac-badge" id="zodiac-badge"></span>
+                    <span class="mbti-badge" id="mbti-badge"></span>
+                </div>
+            </div>
+
+            <!-- 종합 운세 -->
+            <div class="card overall-score">
+                <div class="card-icon">⭐</div>
+                <h3 class="card-title">오늘의 종합운</h3>
+                <div class="score-display">
+                    <span class="score-number" id="overall-score">0</span>
+                    <span class="score-max">/5.0</span>
+                </div>
+                <div class="stars" id="overall-stars"></div>
+                <p class="summary-message" id="summary-message"></p>
+                <p class="mbti-message" id="mbti-message"></p>
+            </div>
+
+            <!-- 카테고리별 운세 -->
+            <div class="card">
+                <h3 class="card-title">세부 운세</h3>
+                <div class="category-scores">
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-icon">💝</span>
+                            <span class="category-name">애정운</span>
+                        </div>
+                        <div class="category-score">
+                            <div class="stars small" id="love-stars"></div>
+                            <span class="score-text" id="love-score">0</span>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-icon">💰</span>
+                            <span class="category-name">금전운</span>
+                        </div>
+                        <div class="category-score">
+                            <div class="stars small" id="money-stars"></div>
+                            <span class="score-text" id="money-score">0</span>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-icon">💪</span>
+                            <span class="category-name">건강운</span>
+                        </div>
+                        <div class="category-score">
+                            <div class="stars small" id="health-stars"></div>
+                            <span class="score-text" id="health-score">0</span>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-header">
+                            <span class="category-icon">📊</span>
+                            <span class="category-name">직장운</span>
+                        </div>
+                        <div class="category-score">
+                            <div class="stars small" id="work-stars"></div>
+                            <span class="score-text" id="work-score">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오늘 하면 좋은 일 -->
+            <div class="card">
+                <div class="card-icon">✅</div>
+                <h3 class="card-title">오늘 하면 좋은 일</h3>
+                <ul class="action-list" id="do-list"></ul>
+            </div>
+
+            <!-- 오늘 피해야 할 일 -->
+            <div class="card">
+                <div class="card-icon">❌</div>
+                <h3 class="card-title">오늘 피해야 할 일</h3>
+                <ul class="action-list avoid" id="avoid-list"></ul>
+            </div>
+
+            <!-- 행운 아이템 -->
+            <div class="card lucky-items">
+                <div class="card-icon">🍀</div>
+                <h3 class="card-title">오늘의 행운 아이템</h3>
+                <div class="lucky-grid">
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 색상</span>
+                        <span class="lucky-value" id="lucky-color">-</span>
+                    </div>
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 아이템</span>
+                        <span class="lucky-value" id="lucky-item">-</span>
+                    </div>
+                </div>
+                <div class="lucky-numbers">
+                    <span class="lucky-label">행운의 숫자</span>
+                    <div class="number-balls" id="lucky-numbers"></div>
+                </div>
+            </div>
+
+            <!-- 공유 버튼 (향후 구현) -->
+            <div class="share-section">
+                <button class="btn-share" disabled>
+                    <span>공유하기 (준비중)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/fortune.js') }}"></script>
+</body>
+</html>
