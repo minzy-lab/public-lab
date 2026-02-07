@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}홈 - Public Lab{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>Public Lab에 오신 것을 환영합니다! 🚀</h2>
+    <p>Flask와 Claude Code로 만든 웹 서비스입니다.</p>
+
+    <div class="features">
+        <div class="feature-card">
+            <h3>🐍 Python Flask</h3>
+            <p>간단하고 강력한 웹 프레임워크</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎨 반응형 디자인</h3>
+            <p>모든 기기에서 완벽하게 작동</p>
+        </div>
+        <div class="feature-card">
+            <h3>⚡ 빠른 개발</h3>
+            <p>Claude Code로 즉시 시작</p>
+        </div>
+    </div>
+
+    <button onclick="testAPI()" class="btn">API 테스트하기</button>
+    <div id="api-result"></div>
+</div>
+{% endblock %}

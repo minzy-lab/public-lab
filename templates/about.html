@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}소개 - Public Lab{% endblock %}
+
+{% block content %}
+<div class="about">
+    <h2>Public Lab 소개</h2>
+
+    <div class="about-content">
+        <section>
+            <h3>프로젝트 개요</h3>
+            <p>이 프로젝트는 비개발자도 쉽게 웹 서비스를 만들 수 있도록 Claude Code를 활용하여 제작되었습니다.</p>
+        </section>
+
+        <section>
+            <h3>사용 기술</h3>
+            <ul>
+                <li><strong>Backend:</strong> Python Flask</li>
+                <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript</li>
+                <li><strong>개발 도구:</strong> Claude Code</li>
+                <li><strong>버전 관리:</strong> Git & GitHub</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>시작하기</h3>
+            <p>README.md 파일을 참고하여 로컬 환경에서 실행해보세요!</p>
+            <pre><code>python app.py</code></pre>
+        </section>
+    </div>
+</div>
+{% endblock %}
