@@ -40,6 +40,12 @@ public-lab/
 ├── static/            # CSS, JS, 이미지
 │   ├── css/
 │   └── js/
+├── agents/            # AI 에이전트 역할 정의
+│   ├── README.md
+│   ├── backend-developer.md
+│   ├── frontend-developer.md
+│   ├── qa-tester.md
+│   └── product-manager.md
 └── README.md          # 이 파일
 ```
 
@@ -54,6 +60,25 @@ public-lab/
 - 코드 수정 시 자동으로 서버가 재시작됩니다 (debug=True)
 - 새로운 페이지는 `templates/` 폴더에 추가
 - 스타일은 `static/css/` 폴더에 추가
+
+## 🤖 AI 에이전트 팀
+
+이 프로젝트는 4가지 AI 에이전트 역할을 정의하여 효율적인 개발을 지원합니다:
+
+- **백엔드 개발자**: API, 데이터베이스 개발
+- **프론트엔드 개발자**: UI/UX, 화면 개발
+- **QA/테스터**: 품질 보증, 버그 발견
+- **PM/기획자**: 제품 기획, 우선순위 결정
+
+자세한 내용은 [`agents/README.md`](./agents/README.md)를 참고하세요.
+
+### 사용 예시
+```
+"백엔드 개발자처럼 사용자 로그인 API를 만들어줘"
+"프론트엔드 개발자처럼 로그인 페이지를 디자인해줘"
+"QA처럼 로그인 기능을 테스트해줘"
+"PM처럼 다음 스프린트 계획을 세워줘"
+```
 
 ## 배포
 
