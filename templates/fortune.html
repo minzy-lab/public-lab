@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>오늘의 운세 - 난그미즘</title>
+    <title>오늘의 운세 - 낭마니즘</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/fortune.css') }}">
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.6.0/kakao.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- 입력 화면 -->
@@ -191,11 +192,23 @@
                 </div>
             </div>
 
-            <!-- 공유 버튼 (향후 구현) -->
+            <!-- 공유 버튼 -->
             <div class="share-section">
-                <button class="btn-share" disabled>
-                    <span>공유하기 (준비중)</span>
+                <button class="btn-share" id="btn-share" onclick="toggleShareMenu()">
+                    <span>공유하기</span>
+                    <span>↑</span>
                 </button>
+                <div class="share-menu" id="share-menu">
+                    <button class="share-option" id="share-kakao" onclick="shareKakao()">
+                        <span class="share-option-icon">💬</span>
+                        <span>카카오톡 공유</span>
+                    </button>
+                    <button class="share-option" id="share-link" onclick="shareLink()">
+                        <span class="share-option-icon">🔗</span>
+                        <span>링크 복사</span>
+                    </button>
+                </div>
+                <div class="share-toast" id="share-toast">링크가 복사되었어요!</div>
             </div>
         </div>
     </div>

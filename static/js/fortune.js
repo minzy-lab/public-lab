@@ -166,7 +166,73 @@ document.getElementById('fortune-form').addEventListener('submit', async (e) => 
     }
 });
 
-// 페이지 로드 시 오늘 날짜를 최대값으로 설정
+// 공유하기 메뉴 토글
+function toggleShareMenu() {
+    const menu = document.getElementById('share-menu');
+    menu.classList.toggle('open');
+}
+
+// 카카오톡 공유
+function shareKakao() {
+    const userName = document.getElementById('user-greeting').textContent;
+    const overallScore = document.getElementById('overall-score').textContent;
+    const zodiac = document.getElementById('zodiac-badge').textContent;
+
+    if (!window.Kakao || !Kakao.isInitialized()) {
+        // 카카오 앱 키 없을 경우 안내
+        alert('카카오톡 공유는 앱 키 설정이 필요합니다.\n링크 복사를 이용해주세요.');
+        return;
+    }
+
+    Kakao.Share.sendDefault({
+        objectType: 'text',
+        text: `🔮 낭마니즘 오늘의 운세\n\n${userName}\n${zodiac} 종합운 ${overallScore}/5.0\n\n나도 오늘의 운세 확인하기 👇`,
+        link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+        },
+    });
+
+    toggleShareMenu();
+}
+
+// 링크 복사
+function shareLink() {
+    const url = window.location.href;
+
+    navigator.clipboard.writeText(url).then(() => {
+        showToast('링크가 복사되었어요!');
+    }).catch(() => {
+        // 클립보드 API 미지원 시 폴백
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('링크가 복사되었어요!');
+    });
+
+    toggleShareMenu();
+}
+
+// 토스트 메시지 표시
+function showToast(message) {
+    const toast = document.getElementById('share-toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// 메뉴 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+    const shareSection = document.querySelector('.share-section');
+    if (shareSection && !shareSection.contains(e.target)) {
+        document.getElementById('share-menu').classList.remove('open');
+    }
+});
+
+// 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', () => {
     const birthDateInput = document.getElementById('birth_date');
     const today = new Date().toISOString().split('T')[0];
@@ -174,4 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 기본값으로 1995년 설정 (예시)
     birthDateInput.value = '1995-01-01';
+
+    // 카카오 SDK 초기화 (앱 키 있을 경우)
+    const kakaoAppKey = document.querySelector('meta[name="kakao-app-key"]')?.content;
+    if (window.Kakao && kakaoAppKey) {
+        Kakao.init(kakaoAppKey);
+    }
 });
